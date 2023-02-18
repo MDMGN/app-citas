@@ -110,7 +110,7 @@ const styles=StyleSheet.create({
         fontWeight: '600',
     },
     input:{
-        backgroundColor: '#FFFFFF',
+        background: '#FFF',
         padding: 15,
         borderRadius: 10,
         marginBottom: 15,
