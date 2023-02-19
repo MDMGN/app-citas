@@ -17,7 +17,7 @@ export default function App() {
         <Text style={styles.btnTextNuevaCita}>Nueva Cita</Text>
       </Pressable>
       <Formulario modalVisible={modalVisible}/>
-      <StatusBar style="auto" />
+      <StatusBar style='dark' />
     </SafeAreaView>
   );
 }

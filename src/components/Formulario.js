@@ -21,7 +21,7 @@ function Formulario({modalVisible}) {
                     <View style={styles.campo}>
                         <Text style={styles.label}>Nombre Paciente</Text>
                         <TextInput 
-                            style={styles.label}
+                            style={styles.input}
                             keyboardType='default'
                             placeholder='Nombre Paciente'
                             placeholderTextColor={'#666'}
@@ -32,7 +32,7 @@ function Formulario({modalVisible}) {
                     <View style={styles.campo}>
                         <Text style={styles.label}>Nombre Propietario</Text>
                         <TextInput 
-                            style={styles.label}
+                            style={styles.input}
                             keyboardType='default'
                             placeholder='Nombre Propietario'
                             placeholderTextColor={'#666'}
@@ -43,7 +43,7 @@ function Formulario({modalVisible}) {
                     <View style={styles.campo}>
                         <Text style={styles.label}>Email Propietario</Text>
                         <TextInput 
-                            style={styles.label}
+                            style={styles.input}
                             keyboardType='email-address'
                             placeholder='Nombre Paciente'
                             placeholderTextColor={'#666'}
@@ -54,7 +54,7 @@ function Formulario({modalVisible}) {
                     <View style={styles.campo}>
                         <Text style={styles.label}>Teléfono Propietario</Text>
                         <TextInput 
-                            style={styles.label}
+                            style={styles.input}
                             keyboardType='number-pad'
                             placeholder='Nombre Paciente'
                             placeholderTextColor={'#666'}
@@ -64,9 +64,9 @@ function Formulario({modalVisible}) {
                         />
                     </View>
                     <View style={styles.campo}>
-                        <Text style={[styles.label, styles.sintomasInput]}>Sintomas Paciente</Text>
+                        <Text style={styles.label}>Sintomas Paciente</Text>
                         <TextInput 
-                            style={styles.label}
+                            style={[styles.input,styles.sintomasInput]}
                             keyboardType='default'
                             placeholder='Nombre Paciente'
                             placeholderTextColor={'#666'}
@@ -100,7 +100,7 @@ const styles=StyleSheet.create({
     campo:{
         marginTop: 40,
         marginHorizontal: 30,
-        marginBottom: 100
+        marginBottom: 10
     },
     label:{
         color: '#FFF',
@@ -110,10 +110,10 @@ const styles=StyleSheet.create({
         fontWeight: '600',
     },
     input:{
-        background: '#FFF',
+        backgroundColor: '#FFF',
         padding: 15,
         borderRadius: 10,
-        marginBottom: 15,
+        marginBottom: 10,
     },
     sintomasInput:{
         height: 100,
