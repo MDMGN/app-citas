@@ -1,9 +1,11 @@
 import React, {useState} from 'react'
-import {Modal, Text, SafeAreaView, TextInput,StyleSheet, View, ScrollView, Pressable} from 'react-native'
+import {Modal, Text, SafeAreaView, 
+    TextInput,StyleSheet, View, 
+    ScrollView, Pressable, Alert} from 'react-native'
 import DateTimePicker from '@react-native-community/datetimepicker'
 
-function Formulario({modalVisible, setModalVisible}) {
-    const [paciente, setPaciente]=useState('')
+function Formulario({modalVisible, setModalVisible, pacientes, setPacientes}) {
+    const [mascota, setMascota]=useState('')
     const [propietario, setPropietario]=useState('')
     const [email, setEmail]=useState('')
     const [phone, setPhone]=useState('')
@@ -30,6 +32,40 @@ function Formulario({modalVisible, setModalVisible}) {
       const showDatepicker = () => {
         showMode('date');
       };
+
+      //Agregar nuevo paciente desde el formulario
+      const agregarPaciente=()=>{
+        
+        if([paciente,propietario,email,phone,date,sintomas].includes('')){
+            Alert.alert(
+                'Error',
+                'Todos los campos son obligatorios.'
+            )
+            return
+        }
+        const paciente={
+            id: Date.now(),
+            mascota,
+            propietario,
+            email,
+            phone,
+            date,
+            sintomas
+        }
+        setPacientes([...pacientes,paciente])
+        setMascota('')
+        setPropietario('')
+        setEmail('')
+        setPhone('')
+        setDate(new Date())
+        setSintomas('')
+        setModalVisible(!modalVisible)
+      }
+      const formatearFecha=()=>{
+            const opciones={ year: 'numeric', month: 'long', day: 'numeric' }
+            const fecha=date.toLocaleString('es-ES',opciones)
+            return fecha;
+      }
   return (
         <Modal
         animationType='slide'
@@ -40,10 +76,11 @@ function Formulario({modalVisible, setModalVisible}) {
                     <Text style={styles.titulo}>Nueva {' '}
                         <Text style={styles.tituloBold}>Cita</Text>
                     </Text>
-                    <Pressable 
+                    <Pressable
+                     style={[styles.btn,styles.btnCerrar]}
                         onPress={()=>setModalVisible(!modalVisible)}
                     >
-                        <Text style={styles.btnCerrar}>x Cerrar</Text>
+                        <Text style={styles.btnText}>x Cerrar</Text>
                     </Pressable>
                     <View style={styles.campo}>
                         <Text style={styles.label}>Nombre Paciente</Text>
@@ -52,8 +89,8 @@ function Formulario({modalVisible, setModalVisible}) {
                             keyboardType='default'
                             placeholder='Nombre Paciente'
                             placeholderTextColor={'#666'}
-                            value={paciente}
-                            onChangeText={setPaciente}
+                            value={mascota}
+                            onChangeText={setMascota}
                         />
                     </View>
                     <View style={styles.campo}>
@@ -93,7 +130,7 @@ function Formulario({modalVisible, setModalVisible}) {
                     <View style={styles.campo}>
                     <Text style={styles.label}>Alta</Text>
                     <Pressable onPress={showDatepicker}>
-                        <Text style={styles.input}>{date.toLocaleDateString()}</Text>
+                        <Text style={styles.input}>{formatearFecha()}</Text>
                     </Pressable>
                         {show && (
                         <DateTimePicker
@@ -109,7 +146,7 @@ function Formulario({modalVisible, setModalVisible}) {
                         <TextInput 
                             style={[styles.input,styles.sintomasInput]}
                             keyboardType='default'
-                            placeholder='Nombre Paciente'
+                            placeholder='Sintomas del Paciente'
                             placeholderTextColor={'#666'}
                             value={sintomas}
                             onChangeText={setSintomas}
@@ -117,6 +154,12 @@ function Formulario({modalVisible, setModalVisible}) {
                             numberOfLines={4}
                         />
                     </View>
+                    <Pressable
+                     style={[styles.btn,styles.btnAceptar]}
+                        onPress={agregarPaciente}
+                    >
+                        <Text style={styles.btnText}>Aceptar</Text>
+                    </Pressable>
                 </ScrollView>
             </SafeAreaView>
         </Modal>
@@ -126,7 +169,6 @@ function Formulario({modalVisible, setModalVisible}) {
 const styles=StyleSheet.create({
     container:{
         backgroundColor: '#6D28D9',
-        flex: 1,
     },
     titulo:{
         fontSize: 30,
@@ -159,14 +201,26 @@ const styles=StyleSheet.create({
     sintomasInput:{
         height: 100,
     },
-    btnCerrar:{
-        textAlign: 'center',
+    btn:{
         padding: 15,
-        backgroundColor: 'rgba(0,0,0,.45)',
         marginTop: 20,
-        marginHorizontal: 45,
+        marginHorizontal: 30,
+        borderRadius: 10,
+        },
+    btnText:{
+        textAlign: 'center',
+        textTransform: 'uppercase',
+        fontSize: 15,
+        fontWeight: '900',
         color: '#FFF'
-        }
+    },
+    btnCerrar:{
+        backgroundColor: '#6D28A8',
+    },
+    btnAceptar:{
+        backgroundColor: '#FFA500',
+        marginBottom: 30,
+    }
 })
 
 export default Formulario

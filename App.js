@@ -1,10 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, SafeAreaView, Pressable } from 'react-native';
+import { StyleSheet, Text, SafeAreaView, Pressable, FlatList } from 'react-native';
 import { useState } from 'react';
 import Formulario from './src/components/Formulario';
+import Paciente from './src/components/Paciente';
 
 export default function App() {
   const [modalVisible,setModalVisible]=useState(false);
+  const [pacientes,setPacientes]=useState([])
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.titulo}>Administrador de citas{' '}
@@ -16,7 +18,24 @@ export default function App() {
       >
         <Text style={styles.btnTextNuevaCita}>Nueva Cita</Text>
       </Pressable>
-      <Formulario modalVisible={modalVisible} setModalVisible={setModalVisible} />
+      <Formulario 
+        modalVisible={modalVisible} 
+        setModalVisible={setModalVisible} 
+        setPacientes={setPacientes}
+        pacientes={pacientes}
+      />
+      {pacientes.length===0 ?
+        <Text style={styles.textoNohayPacientes}>No hay pacientes</Text> :
+        <FlatList
+          data={pacientes}
+          keyExtractor={(item)=> item.id}
+          renderItem={({item})=>
+            (<Paciente 
+                item={item}
+            />)
+          }
+        />
+        }
       <StatusBar style='dark' />
     </SafeAreaView>
   );
@@ -30,10 +49,10 @@ const styles = StyleSheet.create({
   },
   titulo:{
     textAlign: 'center',
-    fontSize:30,
+    fontSize:25,
     textTransform: 'uppercase',
     color: '#374151',
-    fontWeight: '600',
+    fontWeight: '000',
   },
   tituloBold:{
     fontWeight: '900',
@@ -52,5 +71,11 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '900',
     textTransform: 'uppercase',
+  },
+  textoNohayPacientes:{
+    textAlign: 'center',
+    fontWeight: '700',
+    fontSize: 18,
+    marginVertical:10,
   }
 });
