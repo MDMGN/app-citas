@@ -1,12 +1,35 @@
 import React, {useState} from 'react'
-import {Modal, Text, SafeAreaView, TextInput,StyleSheet, View, ScrollView} from 'react-native'
+import {Modal, Text, SafeAreaView, TextInput,StyleSheet, View, ScrollView, Pressable} from 'react-native'
+import DateTimePicker from '@react-native-community/datetimepicker'
 
-function Formulario({modalVisible}) {
+function Formulario({modalVisible, setModalVisible}) {
     const [paciente, setPaciente]=useState('')
     const [propietario, setPropietario]=useState('')
     const [email, setEmail]=useState('')
     const [phone, setPhone]=useState('')
+    const [date,setDate]=useState(new Date())
+    const [mode, setMode] = useState('date');
+    const [show, setShow] = useState(false);
     const [sintomas, setSintomas]=useState('')
+
+
+    //Expo Datepicker
+    const onChange = (event, selectedDate) => {
+        const currentDate = selectedDate;
+        setShow(false);
+        setDate(currentDate);
+      };
+      const showMode = (currentMode) => {
+        if (Platform.OS === 'android') {
+          setShow(true);
+          // for iOS, add a button that closes the picker
+        }
+        setMode(currentMode);
+      };
+    
+      const showDatepicker = () => {
+        showMode('date');
+      };
   return (
         <Modal
         animationType='slide'
@@ -17,7 +40,11 @@ function Formulario({modalVisible}) {
                     <Text style={styles.titulo}>Nueva {' '}
                         <Text style={styles.tituloBold}>Cita</Text>
                     </Text>
-
+                    <Pressable 
+                        onPress={()=>setModalVisible(!modalVisible)}
+                    >
+                        <Text style={styles.btnCerrar}>x Cerrar</Text>
+                    </Pressable>
                     <View style={styles.campo}>
                         <Text style={styles.label}>Nombre Paciente</Text>
                         <TextInput 
@@ -45,7 +72,7 @@ function Formulario({modalVisible}) {
                         <TextInput 
                             style={styles.input}
                             keyboardType='email-address'
-                            placeholder='Nombre Paciente'
+                            placeholder='Email Propietario'
                             placeholderTextColor={'#666'}
                             value={email}
                             onChangeText={setEmail}
@@ -56,12 +83,26 @@ function Formulario({modalVisible}) {
                         <TextInput 
                             style={styles.input}
                             keyboardType='number-pad'
-                            placeholder='Nombre Paciente'
+                            placeholder='Teléfono Paciente'
                             placeholderTextColor={'#666'}
                             value={phone}
                             onChangeText={setPhone}
                             maxLength= {9}
                         />
+                    </View>
+                    <View style={styles.campo}>
+                    <Text style={styles.label}>Alta</Text>
+                    <Pressable onPress={showDatepicker}>
+                        <Text style={styles.input}>{date.toLocaleDateString()}</Text>
+                    </Pressable>
+                        {show && (
+                        <DateTimePicker
+                        testID="dateTimePicker"
+                        value={date}
+                        mode={mode}                        
+                        onChange={onChange}
+                        />
+                    )}
                     </View>
                     <View style={styles.campo}>
                         <Text style={styles.label}>Sintomas Paciente</Text>
@@ -117,7 +158,15 @@ const styles=StyleSheet.create({
     },
     sintomasInput:{
         height: 100,
-    }
+    },
+    btnCerrar:{
+        textAlign: 'center',
+        padding: 15,
+        backgroundColor: 'rgba(0,0,0,.45)',
+        marginTop: 20,
+        marginHorizontal: 45,
+        color: '#FFF'
+        }
 })
 
 export default Formulario
