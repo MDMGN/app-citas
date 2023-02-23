@@ -1,5 +1,5 @@
 import React from 'react'
-import {Text,View, StyleSheet} from 'react-native'
+import {Text,View, StyleSheet, Pressable} from 'react-native'
 
 function Paciente({item}) {
   return (
@@ -17,8 +17,12 @@ function Paciente({item}) {
             <Text  style={styles.texto}>{item.sintomas}</Text>
         </View>
         <View style={styles.containerBtn}>
-            <Text style={[styles.btn,styles.btnEditar]}>Editar</Text>
-            <Text style={[styles.btn,styles.btnEliminar]}>Eliminar</Text>
+            <Pressable style={[styles.btn,styles.btnEditar]}>
+                <Text >Editar</Text>
+            </Pressable>
+            <Pressable style={[styles.btn,styles.btnEliminar]}>
+                <Text>Eliminar</Text>
+            </Pressable>
         </View>
     </View>
   )
