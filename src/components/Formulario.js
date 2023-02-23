@@ -15,7 +15,7 @@ function Formulario({modalVisible, setModalVisible, pacientes, setPacientes, pac
     const [sintomas, setSintomas]=useState('')
 
     useEffect(()=>{
-        if(pacienteApp.id){
+        if(Object.keys(pacienteApp).length > 0){
             setMascota(pacienteApp.mascota)
             setPropietario(pacienteApp.propietario)
             setEmail(pacienteApp.email)

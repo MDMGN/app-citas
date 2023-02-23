@@ -8,6 +8,12 @@ export default function App() {
   const [modalVisible,setModalVisible]=useState(false);
   const [pacientes,setPacientes]=useState([])
   const [paciente,setPaciente]=useState({})
+
+  const eliminarPaciente=(id)=>{
+    const pacientesActualizados= pacientes.filter((paciente)=> paciente.id != id)
+    setPacientes(pacientesActualizados)
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.titulo}>Administrador de citas{' '}
@@ -36,6 +42,7 @@ export default function App() {
             (<Paciente 
                 item={item}
                 setPaciente={setPaciente}
+                eliminarPaciente={eliminarPaciente}
             />)
           }
         />

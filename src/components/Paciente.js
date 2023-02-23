@@ -1,7 +1,22 @@
 import React from 'react'
-import {Text,View, StyleSheet, Pressable} from 'react-native'
+import {Text,View, StyleSheet, Pressable, Alert} from 'react-native'
 
-function Paciente({item, setPaciente}) {
+function Paciente({item, setPaciente, eliminarPaciente}) {
+    const handleEliminar=()=>{
+        Alert.alert(
+            'Eliminar paciente',
+            'Seguro que quieres eliminar al paciente?',
+                [{
+                    text:'Cancel',
+                    style:'cancel'
+                },
+                {
+                    text:'Ok',
+                    onPress: ()=> eliminarPaciente(item.id)
+                }
+            ]
+        )
+    }
   return (
     <View style={styles.container}>
         <View>
@@ -22,7 +37,9 @@ function Paciente({item, setPaciente}) {
             style={[styles.btn,styles.btnEditar]}>
                 <Text >Editar</Text>
             </Pressable>
-            <Pressable style={[styles.btn,styles.btnEliminar]}>
+            <Pressable 
+                onLongPress={handleEliminar}
+                style={[styles.btn,styles.btnEliminar]}>
                 <Text>Eliminar</Text>
             </Pressable>
         </View>
