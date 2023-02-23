@@ -7,6 +7,7 @@ import Paciente from './src/components/Paciente';
 export default function App() {
   const [modalVisible,setModalVisible]=useState(false);
   const [pacientes,setPacientes]=useState([])
+  const [paciente,setPaciente]=useState({})
   return (
     <SafeAreaView style={styles.container}>
       <Text style={styles.titulo}>Administrador de citas{' '}
@@ -23,6 +24,8 @@ export default function App() {
         setModalVisible={setModalVisible} 
         setPacientes={setPacientes}
         pacientes={pacientes}
+        paciente={paciente}
+        setPaciente={setPaciente}
       />
       {pacientes.length===0 ?
         <Text style={styles.textoNohayPacientes}>No hay pacientes</Text> :
@@ -32,6 +35,7 @@ export default function App() {
           renderItem={({item})=>
             (<Paciente 
                 item={item}
+                setPaciente={setPaciente}
             />)
           }
         />

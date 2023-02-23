@@ -1,7 +1,7 @@
 import React from 'react'
 import {Text,View, StyleSheet, Pressable} from 'react-native'
 
-function Paciente({item}) {
+function Paciente({item, setPaciente}) {
   return (
     <View style={styles.container}>
         <View>
@@ -17,7 +17,9 @@ function Paciente({item}) {
             <Text  style={styles.texto}>{item.sintomas}</Text>
         </View>
         <View style={styles.containerBtn}>
-            <Pressable style={[styles.btn,styles.btnEditar]}>
+            <Pressable 
+            onPress={()=>setPaciente(item)}
+            style={[styles.btn,styles.btnEditar]}>
                 <Text >Editar</Text>
             </Pressable>
             <Pressable style={[styles.btn,styles.btnEliminar]}>
@@ -52,7 +54,11 @@ const styles=StyleSheet.create({
         justifyContent: 'space-between'
     },
     btn:{
-        backgroundColor:'#ffe'
+        backgroundColor:'#fce',
+        padding: 10,
+        paddingLeft: 15,
+        border: 'none',
+        borderRadius: 10,
     }
 })
 

@@ -1,10 +1,10 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import {Modal, Text, SafeAreaView, 
     TextInput,StyleSheet, View, 
     ScrollView, Pressable, Alert} from 'react-native'
 import DateTimePicker from '@react-native-community/datetimepicker'
 
-function Formulario({modalVisible, setModalVisible, pacientes, setPacientes}) {
+function Formulario({modalVisible, setModalVisible, pacientes, setPacientes, paciente: pacienteApp, setPaciente}) {
     const [mascota, setMascota]=useState('')
     const [propietario, setPropietario]=useState('')
     const [email, setEmail]=useState('')
@@ -14,6 +14,17 @@ function Formulario({modalVisible, setModalVisible, pacientes, setPacientes}) {
     const [show, setShow] = useState(false);
     const [sintomas, setSintomas]=useState('')
 
+    useEffect(()=>{
+        if(pacienteApp.id){
+            setMascota(pacienteApp.mascota)
+            setPropietario(pacienteApp.propietario)
+            setEmail(pacienteApp.email)
+            setPhone(pacienteApp.phone)
+            setDate(pacienteApp.date)
+            setSintomas(pacienteApp.sintomas)
+            setModalVisible(!modalVisible)
+        }
+    },[pacienteApp])
 
     //Expo Datepicker
     const onChange = (event, selectedDate) => {
@@ -32,7 +43,17 @@ function Formulario({modalVisible, setModalVisible, pacientes, setPacientes}) {
       const showDatepicker = () => {
         showMode('date');
       };
-
+      const handleModal=()=>{
+        setMascota('')
+        setPropietario('')
+        setEmail('')
+        setPhone('')
+        setDate(new Date())
+        setSintomas('')
+        setModalVisible(!modalVisible)
+        setPaciente({})
+        
+      }
       //Agregar nuevo paciente desde el formulario
       const agregarPaciente=()=>{
         
@@ -44,7 +65,6 @@ function Formulario({modalVisible, setModalVisible, pacientes, setPacientes}) {
             return
         }
         const paciente={
-            id: Date.now(),
             mascota,
             propietario,
             email,
@@ -52,7 +72,17 @@ function Formulario({modalVisible, setModalVisible, pacientes, setPacientes}) {
             date,
             sintomas
         }
-        setPacientes([...pacientes,paciente])
+        if(pacienteApp.id){
+            paciente.id=pacienteApp.id;
+            const pacienteActulizado=pacientes.map(pacienteState=> 
+                pacienteState.id===pacienteApp.id ? paciente : pacienteState)
+                setPacientes(pacienteActulizado)
+                setPaciente({})
+        }else{
+            paciente.id=Date.now();
+            setPacientes([...pacientes,paciente])
+        }
+
         setMascota('')
         setPropietario('')
         setEmail('')
@@ -73,12 +103,12 @@ function Formulario({modalVisible, setModalVisible, pacientes, setPacientes}) {
         >
             <SafeAreaView style={styles.container}>
                 <ScrollView>
-                    <Text style={styles.titulo}>Nueva {' '}
+                    <Text style={styles.titulo}>{(pacienteApp.id ? 'Modificar' : 'Nueva')} {' '}
                         <Text style={styles.tituloBold}>Cita</Text>
                     </Text>
                     <Pressable
                      style={[styles.btn,styles.btnCerrar]}
-                        onPress={()=>setModalVisible(!modalVisible)}
+                        onPress={handleModal}
                     >
                         <Text style={styles.btnText}>x Cerrar</Text>
                     </Pressable>
