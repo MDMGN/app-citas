@@ -1,7 +1,7 @@
 import React from 'react'
 import {Text,View, StyleSheet, Pressable, Alert} from 'react-native'
 
-function Paciente({item, setPaciente, eliminarPaciente}) {
+export function Paciente({item, setPaciente, eliminarPaciente, setModalPaciente}) {
     const handleEliminar=()=>{
         Alert.alert(
             'Eliminar paciente',
@@ -18,7 +18,13 @@ function Paciente({item, setPaciente, eliminarPaciente}) {
         )
     }
   return (
-    <View style={styles.container}>
+    <Pressable 
+        onLongPress={()=>{
+            setPaciente(item)
+            setModalPaciente(true)
+        }}
+    >
+        <View style={styles.container}>
         <View>
             <Text  style={styles.label}>Paciente: </Text>
             <Text  style={styles.texto}>{item.mascota}</Text>
@@ -44,6 +50,7 @@ function Paciente({item, setPaciente, eliminarPaciente}) {
             </Pressable>
         </View>
     </View>
+    </Pressable>
   )
 }
 const styles=StyleSheet.create({
@@ -78,5 +85,3 @@ const styles=StyleSheet.create({
         borderRadius: 10,
     }
 })
-
-export default Paciente

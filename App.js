@@ -1,11 +1,11 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, SafeAreaView, Pressable, FlatList } from 'react-native';
+import { StyleSheet, Text, SafeAreaView, Pressable, FlatList, Modal } from 'react-native';
 import { useState } from 'react';
-import Formulario from './src/components/Formulario';
-import Paciente from './src/components/Paciente';
+import {Formulario, InformacionPaciente, Paciente} from './src/components/';
 
 export default function App() {
   const [modalVisible,setModalVisible]=useState(false);
+  const [modalPaciente, setModalPaciente] = useState(false)
   const [pacientes,setPacientes]=useState([])
   const [paciente,setPaciente]=useState({})
 
@@ -25,14 +25,17 @@ export default function App() {
       >
         <Text style={styles.btnTextNuevaCita}>Nueva Cita</Text>
       </Pressable>
-      <Formulario 
-        modalVisible={modalVisible} 
-        setModalVisible={setModalVisible} 
-        setPacientes={setPacientes}
-        pacientes={pacientes}
-        paciente={paciente}
-        setPaciente={setPaciente}
-      />
+      <Modal
+          visible={modalVisible} 
+        >
+        <Formulario 
+          setModalVisible={setModalVisible} 
+          setPacientes={setPacientes}
+          pacientes={pacientes}
+          paciente={paciente}
+          setPaciente={setPaciente}
+        />
+      </Modal>
       {pacientes.length===0 ?
         <Text style={styles.textoNohayPacientes}>No hay pacientes</Text> :
         <FlatList
@@ -42,11 +45,19 @@ export default function App() {
             (<Paciente 
                 item={item}
                 setPaciente={setPaciente}
+                setModalPaciente={setModalPaciente}
                 eliminarPaciente={eliminarPaciente}
             />)
           }
         />
         }
+        <Modal visible={modalPaciente}>
+          <InformacionPaciente
+              paciente={paciente}
+              setPaciente={setPaciente}
+              setModalPaciente={setModalPaciente}
+          />
+        </Modal>
       <StatusBar style='dark' />
     </SafeAreaView>
   );
